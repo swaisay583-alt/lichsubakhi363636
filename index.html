@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đề Cương Lịch Sử 7 - Lớp 7A7</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    color: #e6edf3;
+    margin: 0;
+    padding: 25px 15px;
+    line-height: 1.6;
+  }
+  
+  /* Thanh tiến độ làm bài trên cùng */
+  .progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 7px;
+    background: #1c2128;
+    z-index: 9999;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 12px auto;
+    background: #1c2128;
+    padding: 32px;
+    border-radius: 16px;
+    border-top: 6px solid #f59e0b;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.75);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #fbbf24;
+    margin-bottom: 5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(251, 191, 36, 0.25);
+  }
+  
+  .header-info {
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  .status-badge {
+    display: inline-block;
+    background: #2d333b;
+    color: #fbbf24;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.95em;
+    margin-top: 10px;
+    border: 1px solid #444c56;
+  }
+
+  .section-title {
+    font-size: 1.3em;
+    font-weight: 800;
+    color: #fbbf24;
+    border-bottom: 2px solid #373e47;
+    padding-bottom: 8px;
+    margin: 30px 0 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  select, button.submit-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  
+  select {
+    background-color: #161b22;
+    color: #fff;
+    border: 2px solid #f59e0b;
+    cursor: pointer;
+    font-weight: bold;
+    outline: none;
+    transition: 0.3s;
+  }
+  select:focus {
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+  }
+
+  .question-box {
+    margin-bottom: 22px;
+    padding: 22px;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    background: #22272e;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: all 0.25s ease;
+  }
+  .question-box:hover {
+    border-color: #f59e0b;
+  }
+  .question-box.answered {
+    border-left: 5px solid #f59e0b;
+    background: #262c34;
+  }
+
+  .question-title {
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #fcd34d;
+    font-size: 1.12em;
+  }
+
+  .options label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: #2d333b;
+    border: 1px solid transparent;
+  }
+  .options label:hover {
+    background-color: #373e47;
+    border-color: #fbbf24;
+    transform: translateX(4px);
+  }
+  
+  input[type="radio"] {
+    margin-right: 12px;
+    transform: scale(1.35);
+    accent-color: #f59e0b;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  button.submit-btn {
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+    color: #111;
+    border: none;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+  }
+  button.submit-btn:hover {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    box-shadow: 0 6px 22px rgba(245, 158, 11, 0.65);
+    transform: translateY(-2px);
+  }
+  button.submit-btn:active {
+    transform: translateY(1px);
+  }
+
+  #resultBox {
+    display: none;
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 12px;
+    font-size: 18px;
+    line-height: 1.6;
+    background-color: #22272e;
+    border: 2px solid #f59e0b;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  }
+  
+  .feedback {
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 0.98em;
+    display: none;
+  }
+
+  /* Bảng tự luận ôn tập */
+  .essay-box {
+    background: #22272e;
+    border: 1px solid #30363d;
+    border-left: 4px solid #38bdf8;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+  }
+  .essay-q {
+    font-weight: bold;
+    color: #38bdf8;
+    margin-bottom: 10px;
+    font-size: 1.08em;
+  }
+  .essay-ans {
+    color: #cdd9e5;
+    font-size: 0.98em;
+  }
+  .essay-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.95em;
+  }
+  .essay-table th, .essay-table td {
+    border: 1px solid #444c56;
+    padding: 10px;
+    text-align: left;
+  }
+  .essay-table th {
+    background-color: #2d333b;
+    color: #fbbf24;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="container">
+  <h1>ĐỀ CƯƠNG KIỂM TRA GIỮA KÌ I - LỊCH SỬ 7</h1>
+  <div class="header-info">
+    Lớp 7A7 - Năm học 2026-2027<br>
+    <span class="status-badge" id="progressText">Đã làm: 0/20 câu</span>
+  </div>
+
+  <div class="question-box">
+    <label style="font-weight: bold; color: #fff; font-size: 1.1em;">👤 Chọn tên của bạn:</label>
+    <select id="studentName" onchange="playClick()">
+      <option value="">-- Bấm vào đây để chọn tên --</option>
+    </select>
+  </div>
+
+  <div class="section-title">I. PHẦN TRẮC NGHIỆM (20 CÂU)</div>
+  <div id="quizContainer"></div>
+
+  <button class="submit-btn" onclick="nopBai()">NỘP BÀI & XEM ĐIỂM</button>
+  <div id="resultBox"></div>
+
+  <div class="section-title">II. PHẦN TỰ LUẬN THAM KHẢO (ÔN TẬP)</div>
+  
+  <div class="essay-box">
+    <div class="essay-q">Câu 1. Hãy giới thiệu những nét chính về hành trình cuộc phát kiến địa lí của Ph. Ma-gien-lăng?</div>
+    <div class="essay-ans">
+      <ul>
+        <li><b>Thời gian khởi hành:</b> Tháng 9 năm 1519, Ma-gien-lăng dẫn đầu đoàn thám hiểm xuất phát từ Tây Ban Nha, đi về hướng Tây.</li>
+        <li><b>Vượt qua Nam Mỹ:</b> Tiến vào đại dương mênh mông mà ông đặt tên là Thái Bình Dương.</li>
+        <li><b>Đến Phi-líp-pin và biến cố:</b> Vào năm 1521, Ma-gien-lăng bị sát hại trong một cuộc đụng độ với thổ dân bản địa.</li>
+        <li><b>Hoàn thành hành trình:</b> S. Ê-ca-nô lên chỉ huy đoàn tiếp tục vượt Ấn Độ Dương vòng qua mũi Hảo Vọng (châu Phi) và đưa chiếc tàu còn lại duy nhất trở về Tây Ban Nha vào tháng 9 năm 1522 (hoàn thành chuyến đi vòng quanh thế giới đầu tiên).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="essay-box">
+    <div class="essay-q">Câu 2. So sánh Lãnh địa phong kiến và Thành thị trung đại:</div>
+    <div class="essay-ans">
+      <table class="essay-table">
+        <tr>
+          <th>Nội dung</th>
+          <th>Lãnh địa phong kiến</th>
+          <th>Thành thị trung đại</th>
+        </tr>
+        <tr>
+          <td><b>Thời gian xuất hiện</b></td>
+          <td>Thế kỉ IX</td>
+          <td>Thế kỉ XI</td>
+        </tr>
+        <tr>
+          <td><b>Hoạt động kinh tế chủ yếu</b></td>
+          <td>Nông nghiệp, tự cung tự cấp</td>
+          <td>Thủ công nghiệp và thương nghiệp</td>
+        </tr>
+        <tr>
+          <td><b>Thành phần cư dân chủ yếu</b></td>
+          <td>Lãnh chúa và nông nô</td>
+          <td>Thương nhân và thợ thủ công</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="essay-box">
+    <div class="essay-q">Câu 3. Việt Nam đã từng bị xâm lược và trở thành thuộc địa của nước nào?</div>
+    <div class="essay-ans">
+      Việt Nam từng bị xâm lược và đô hộ bởi các triều đại phong kiến phương Bắc (Trung Quốc), Thực dân Pháp, Phát xít Nhật và Đế quốc Mỹ.
+    </div>
+  </div>
+
+  <div class="essay-box">
+    <div class="essay-q">Câu 4. Nhận xét về thành tựu kĩ thuật in của Trung Quốc:</div>
+    <div class="essay-ans">
+      Kĩ thuật in (đặc biệt là in chữ rời bằng đất sét nung của Tất Thăng thời Tống) là một trong những phát minh vĩ đại của Trung Quốc, góp phần quan trọng thúc đẩy sự truyền bá tri thức, phát triển văn hóa và giáo dục của toàn nhân loại.
+    </div>
+  </div>
+</div>
+
+<script>
+  // HỆ THỐNG ÂM THANH CLICK TO RÕ, SẮC NÉT
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  let audioCtx;
+
+  function playClick() {
+    try {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      // Dùng sóng triangle kết hợp tần số cao để âm thanh đanh và to rõ hơn
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(850, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(180, audioCtx.currentTime + 0.06);
+      
+      // Tăng gain lên mức 0.75 (to gấp 3 lần bản cũ)
+      gain.gain.setValueAtTime(0.75, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.06);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.06);
+    } catch (e) {}
+  }
+
+  function playSubmitSound() {
+    try {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      
+      const now = audioCtx.currentTime;
+      [523.25, 659.25, 783.99].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+        gain.gain.setValueAtTime(0.6, now + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + i * 0.08);
+        osc.stop(now + i * 0.08 + 0.25);
+      });
+    } catch (e) {}
+  }
+
+  // DANH SÁCH 39 HỌC SINH LỚP 7A7
+  const danhsach7A7 = [
+    "1. Phạm Thị Vân Anh", "2. Phạm Hoài Bảo", "3. Trần Phạm Gia Bảo", "4. Nguyễn Ngọc Diễm",
+    "5. Huỳnh Vũ Duy", "6. Võ Minh Duy", "7. Đỗ Lâm Hạnh Duyên", "8. Nguyễn Phan Khánh Duyên",
+    "9. Nguyễn Minh Đăng", "10. Võ Nguyễn Ngọc Giàu", "11. Võ Thị Nhã Hân", "12. Võ Minh Hiếu",
+    "13. Nguyễn Hoàng Kha", "14. Phan Hoàng Thái Lâm", "15. Nguyễn Hữu Bảo Long", "16. Huỳnh Duy Mạnh",
+    "17. Lê Thị Cẩm Mi", "18. Nguyễn Lâm Hải Nam", "19. Phạm Hoàng Phương Nghi", "20. Nguyễn Phương Khánh Ngọc",
+    "21. Nguyễn Trần Bảo Ngọc", "22. Trần Nguyễn Như Ngọc", "23. Lê Nhi", "24. Phạm Đỗ Huỳnh Như",
+    "25. Võ Minh Nhựt", "26. Lê Văn Hoàng Phi", "27. Ngô Văn Tài", "28. Lê Thanh Tân",
+    "29. Đỗ Huệ Thanh", "30. Phạm Huỳnh Thanh Thảo", "31. Nguyễn Trúc Thi", "32. Trần Hoàng Thiện",
+    "33. Huỳnh Anh Thư", "34. Trần Trung Tín", "35. Nguyễn Thị Ngọc Trân", "36. Nguyễn Minh Triệu",
+    "37. Phạm Thanh Vũ", "38. Lê Trần Hoàng Vy", "39. Đặng Ngọc Như Ý"
+  ];
+
+  const select = document.getElementById('studentName');
+  danhsach7A7.forEach(ten => {
+    let opt = document.createElement('option');
+    opt.value = ten;
+    opt.innerHTML = ten;
+    select.appendChild(opt);
+  });
+
+  // DANH SÁCH 20 CÂU HỎI TRẮC NGHIỆM LỊCH SỬ 7 (ĐÃ RÀ SOÁT ĐÁP ÁN CHUẨN XÁC 100%)
+  const tracnghiem = [
+    { 
+      q: "Câu 1. Sự kiện chủ yếu hình thành xã hội phong kiến ở Tây Âu?", 
+      o: ["A. Đế quốc La Mã thành lập.", "B. Đế quốc La Mã phát triển.", "C. Đế quốc La Mã bị khủng hoảng.", "D. Đế quốc La Mã bị diệt vong."], 
+      a: 3 // D (Năm 476, đế quốc Tây La Mã sụp đổ, mở đầu thời kì phong kiến Tây Âu)
+    },
+    { 
+      q: "Câu 2. Đặc trưng kinh tế của lãnh địa phong kiến là:", 
+      o: ["A. tự cung tự cấp, thủ công nghiệp là chủ yếu.", "B. khép kín, thương nghiệp đóng vai trò chủ đạo.", "C. kinh tế hàng hoá, trao đổi mua bán tự do.", "D. tự cấp tự túc, nông nghiệp đóng vai trò chủ đạo."], 
+      a: 3 // D
+    },
+    { 
+      q: "Câu 3. Trong xã hội phong kiến ở Tây Âu, lãnh chúa bóc lột nông nô bằng việc:", 
+      o: ["A. nộp tô.", "B. nộp thuế.", "C. nộp tô và nhiều loại thuế.", "D. nộp thuế sắt và muối."], 
+      a: 2 // C
+    },
+    { 
+      q: "Câu 4. Điều kiện địa lí nào góp phần hình thành các đô thị ở phương Đông cổ đại?", 
+      o: ["A. Vùng đồi núi cao, nhiều khoáng sản.", "B. Vùng sa mạc rộng lớn.", "C. Trên lưu vực các dòng sông lớn.", "D. Gần biển, có nhiều vũng vịnh."], 
+      a: 2 // C
+    },
+    { 
+      q: "Câu 5. Điều kiện địa lí nào góp phần hình thành các đô thị ở phương Tây cổ đại?", 
+      o: ["A. Vùng đồi núi cao, nhiều khoáng sản.", "B. Vùng sa mạc rộng lớn.", "C. Trên lưu vực các dòng sông lớn.", "D. Gần biển, có nhiều vũng vịnh."], 
+      a: 3 // D
+    },
+    { 
+      q: "Câu 6. Các cuộc phát kiến địa lí đã để lại hệ quả tích cực gì?", 
+      o: ["A. Mở ra con đường mới, tìm ra vùng đất mới.", "B. Làm nảy sinh quá trình cướp bóc thuộc địa.", "C. Làm nảy sinh nạn buôn bán nô lệ da đen.", "D. Làm nảy sinh quá trình xâm chiếm thuộc địa."], 
+      a: 0 // A
+    },
+    { 
+      q: "Câu 7. Các cuộc phát kiến địa lí đã để lại hệ quả tiêu cực gì?", 
+      o: ["A. Mở ra con đường mới, tìm ra vùng đất mới.", "B. Đem về khối lượng lớn vàng bạc.", "C. Làm nảy sinh nạn buôn bán nô lệ da đen.", "D. Đem về khối lượng lớn nguyên liệu."], 
+      a: 2 // C
+    },
+    { 
+      q: "Câu 8. Hình thức kinh doanh tư bản chủ nghĩa xuất hiện như thế nào?", 
+      o: ["A. Tích lũy vốn, tập hợp người làm thuê, lập công trường, đồn điền, công ti.", "B. Tích lũy vốn, lập công trường, đồn điền, công ti, tập hợp người làm thuê.", "C. Lập công trường, đồn điền, công ti, tích lũy vốn, tập hợp người làm thuê.", "D. Tập hợp người làm thuê, lập công trường, đồn điền, công ti, tích lũy vốn."], 
+      a: 0 // A
+    },
+    { 
+      q: "Câu 9. Quá trình nảy sinh chủ nghĩa tư bản đã làm xã hội hình thành các giai cấp mới nào?", 
+      o: ["A. Lãnh chúa và nông nô.", "B. Lãnh chúa và vô sản.", "C. Tư sản và vô sản.", "D. Tư sản và nông nô."], 
+      a: 2 // C (Bị mất chữ ở ảnh 2, nằm đầu trang ảnh 1 là C. Tư sản và vô sản)
+    },
+    { 
+      q: "Câu 10. Nhà viết kịch vĩ đại thời Phục Hưng là ai?", 
+      o: ["A. M. Xéc-van-tét.", "B. W. Sếch-xpia.", "C. Mi-ken-lăng-giơ.", "D. G. Bru-nô."], 
+      a: 1 // B
+    },
+    { 
+      q: "Câu 11. Nguyên nhân bùng nổ Phong trào Cải cách tôn giáo?", 
+      o: ["A. Thiên Chúa giáo có thế lực rất lớn về chính trị, kinh tế ở Tây Âu.", "B. Thiên Chúa giáo có thế lực rất lớn về văn hóa, tư tưởng ở Tây Âu.", "C. Thiên Chúa giáo là công cụ cai trị về mặt tinh thần của giai cấp thống trị.", "D. Giáo hội Thiên Chúa giáo ngày càng có xu hướng cản trở sự phát triển của tư sản."], 
+      a: 3 // D
+    },
+    { 
+      q: "Câu 12. Nội dung cơ bản nào là của Cải cách tôn giáo?", 
+      o: ["A. Ủng hộ việc làm của Giáo hội.", "B. Đặt ra những lễ nghi tốn kém.", "C. Quan tâm đến quyền lực.", "D. Phê phán những hành vi không chuẩn mực của Giáo hoàng."], 
+      a: 3 // D
+    },
+    { 
+      q: "Câu 13. Dưới thời nhà Đường, các hoàng đế không thực hiện chính sách nào?", 
+      o: ["A. Cử người thân tín cai quản các địa phương.", "B. Không xâm lược, mở rộng lãnh thổ.", "C. Giảm thuế, thực hiện chế độ quân điền.", "D. Buôn bán hầu hết các nước châu Á."], 
+      a: 1 // B (Nhà Đường tiến hành nhiều cuộc chiến tranh xâm lược mở rộng lãnh thổ)
+    },
+    { 
+      q: "Câu 14. Hệ tư tưởng chính thống của chế độ phong kiến Trung Quốc là gì?", 
+      o: ["A. Nho giáo.", "B. Phật giáo.", "C. Thiên chúa giáo.", "D. Hồi giáo."], 
+      a: 0 // A
+    },
+    { 
+      q: "Câu 15. Công trình kiến trúc nào là biểu tượng của Trung Quốc nhưng lại gắn liền với tên tuổi của một người Việt (Nguyễn An)?", 
+      o: ["A. Tử Cấm Thành.", "B. Hoàng Hạc lâu.", "C. Phượng Hoàng cổ trấn.", "D. Di Hòa Viên."], 
+      a: 0 // A
+    },
+    { 
+      q: "Câu 16. Ấn Độ nằm ở khu vực nào?", 
+      o: ["A. Bắc Á.", "B. Tây Á.", "C. Đông Á.", "D. Nam Á."], 
+      a: 3 // D
+    },
+    { 
+      q: "Câu 17. Vương triều Gúp-ta được lập ra vào thời gian nào?", 
+      o: ["A. Đầu thế kỉ IV.", "B. Giữa thế kỉ IV.", "C. Nửa sau thế kỉ IV.", "D. Cuối thế kỉ IV."], 
+      a: 0 // A (Năm 319 - đầu thế kỉ IV)
+    },
+    { 
+      q: "Câu 18. Dưới thời Vương triều Hồi giáo Đê-li, mâu thuẫn dân tộc gay gắt là do:", 
+      o: ["A. Ấn Độ bị chia thành nhiều khu vực.", "B. kinh tế chưa phát triển.", "C. xâm chiếm các tiểu quốc ở Nam Ấn.", "D. phân biệt sắc tộc và tôn giáo."], 
+      a: 3 // D
+    },
+    { 
+      q: "Câu 19. Vương triều Mô-gôn sụp đổ do đâu?", 
+      o: ["A. Tình trạng chia rẽ và khủng hoảng.", "B. Bị thực dân Anh xâm lược.", "C. Phân biệt sắc tộc và tôn giáo.", "D. Kinh tế chưa phát triển."], 
+      a: 1 // B (Thực dân Anh xâm lược và lật đổ hoàn toàn năm 1857)
+    },
+    { 
+      q: "Câu 20. Tôn giáo nào là du nhập vào Ấn Độ, lập ra vương triều Đê-li và Mô-gôn?", 
+      o: ["A. Phật giáo.", "B. Hin-đu giáo.", "C. Nho giáo.", "D. Hồi giáo."], 
+      a: 3 // D
+    }
+  ];
+
+  const container = document.getElementById('quizContainer');
+  let html = '';
+
+  tracnghiem.forEach((item, index) => {
+    html += `<div class="question-box" id="tn_box_${index}">
+               <div class="question-title">${item.q}</div>
+               <div class="options">`;
+    item.o.forEach((opt, optIndex) => {
+      html += `<label><input type="radio" name="tn_${index}" value="${optIndex}" onclick="chonDapAn(${index})"> <span>${opt}</span></label>`;
+    });
+    html += `</div><div id="tn_fb_${index}" class="feedback"></div></div>`;
+  });
+
+  container.innerHTML = html;
+
+  function chonDapAn(index) {
+    playClick();
+    document.getElementById(`tn_box_${index}`).classList.add('answered');
+    
+    let daLam = 0;
+    for (let i = 0; i < tracnghiem.length; i++) {
+      if (document.querySelector(`input[name="tn_${i}"]:checked`)) {
+        daLam++;
+      }
+    }
+    const percent = (daLam / tracnghiem.length) * 100;
+    document.getElementById('progressBar').style.width = percent + '%';
+    document.getElementById('progressText').innerText = `Đã làm: ${daLam}/${tracnghiem.length} câu`;
+  }
+
+  function nopBai() {
+    const ten = document.getElementById('studentName').value;
+    if (!ten) {
+      playClick();
+      alert("⚠️ Vui lòng chọn tên của bạn ở đầu trang trước khi nộp bài!");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    playSubmitSound();
+    let diemTN = 0;
+    let chualam = 0;
+
+    tracnghiem.forEach((item, index) => {
+      const selected = document.querySelector(`input[name="tn_${index}"]:checked`);
+      const fb = document.getElementById(`tn_fb_${index}`);
+      fb.style.display = 'block';
+
+      if (!selected) {
+        chualam++;
+        fb.innerHTML = `⚠️ Bạn chưa làm câu này! Đáp án đúng là: <b>${item.o[item.a]}</b>`;
+        fb.style.backgroundColor = '#4a3b10';
+        fb.style.color = '#ffd54f';
+      } else if (parseInt(selected.value) === item.a) {
+        diemTN += 0.5; // 20 câu x 0.5 điểm = 10 điểm
+        fb.innerHTML = `✔️ Chính xác! Đáp án đúng: <b>${item.o[item.a]}</b>`;
+        fb.style.backgroundColor = '#1e3823';
+        fb.style.color = '#81c784';
+      } else {
+        fb.innerHTML = `❌ Sai rồi! Đáp án đúng là: <b>${item.o[item.a]}</b>`;
+        fb.style.backgroundColor = '#451c1c';
+        fb.style.color = '#e57373';
+      }
+    });
+
+    let tongDiem = diemTN.toFixed(1);
+    let rank = tongDiem >= 8 ? "🎉 Xuất sắc! Bạn nắm bài Lịch sử rất chắc!" : (tongDiem >= 5 ? "👍 Khá tốt, xem lại các câu sai để đạt điểm tối đa nhé!" : "📚 Cần ôn kĩ lại đề cương nha!");
+
+    const res = document.getElementById('resultBox');
+    res.style.display = 'block';
+    res.style.borderColor = tongDiem >= 5 ? '#fbbf24' : '#e57373';
+
+    let msg = `<h2 style="color: #fff; margin-top: 0;">KẾT QUẢ BÀI LÀM LỊCH SỬ 7</h2>
+               <b style="font-size: 1.2em;">👤 Học sinh: <span style="color:#fbbf24">${ten}</span></b><br>
+               <h1 style="margin: 15px 0; color: #fbbf24; font-size: 3.2em;">${tongDiem}<span style="font-size: 0.45em; color: #aaa;">/10 điểm</span></h1>
+               <p style="font-size: 1.1em; font-weight: bold;">${rank}</p>`;
+               
+    if (chualam > 0) {
+      msg += `<p style="color:#ffd54f"><i>Lưu ý: Bạn đã bỏ trống ${chualam} câu chưa chọn đáp án.</i></p>`;
+    }
+    
+    msg += `<button onclick="location.reload()" style="background:#373e47; color:#fff; border:1px solid #fbbf24; padding:10px 25px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:10px;">🔄 Làm lại đề</button>`;
+
+    res.innerHTML = msg;
+    res.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+</body>
+</html>
